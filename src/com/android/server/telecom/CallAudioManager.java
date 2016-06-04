@@ -371,8 +371,7 @@ final class CallAudioManager extends CallsManagerListenerBase
     private void updateAudioStreamAndMode() {
         Log.i(this, "updateAudioStreamAndMode, mIsRinging: %b, mIsTonePlaying: %b", mIsRinging,
                 mIsTonePlaying);
-        Log.v(this, "updateAudioStreamAndMode, mSpeedUpAudioForMtCall: %b", mSpeedUpAudioForMtCall);
-        if (mIsRinging && !mSpeedUpAudioForMtCall) {
+        if (mIsRinging) {
             requestAudioFocusAndSetMode(AudioManager.STREAM_RING, AudioManager.MODE_RINGTONE);
         } else {
             Call foregroundCall = getForegroundCall();
@@ -493,7 +492,6 @@ final class CallAudioManager extends CallsManagerListenerBase
                 setAudioParameters(call, newMode);
             }
             mAudioManager.setMode(newMode);
-            Log.d(this, "SetMode Done");
             mMostRecentlyUsedMode = newMode;
         }
     }
@@ -580,7 +578,7 @@ final class CallAudioManager extends CallsManagerListenerBase
 
         // We ignore any foreground call that is in the ringing state because we deal with ringing
         // calls exclusively through the mIsRinging variable set by {@link Ringer}.
-        if (call != null && call.getState() == CallState.RINGING && !mSpeedUpAudioForMtCall ) {
+        if (call != null && call.getState() == CallState.RINGING) {
             call = null;
         }
 
